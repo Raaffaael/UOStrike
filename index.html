@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ultima Online Server</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: radial-gradient(circle at center, #2b1f12, #0b0704 80%);
+            background-size: cover;
+            color: #e3d7b6;
+            font-family: "Cinzel", serif;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(20, 10, 5, 0.7);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            border-bottom: 1px solid #8d6b3f;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 40px;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li a {
+            color: #e3d7b6;
+            text-decoration: none;
+            font-size: 1.2rem;
+            text-shadow: 0 0 5px #000;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #d4b06b;
+            text-shadow: 0 0 10px #c7a96b;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 100vh;
+            padding-top: 70px;
+        }
+
+        .logo {
+            width: 450px;
+            max-width: 90vw;
+            filter: drop-shadow(0 0 15px #c7a96b);
+            animation: fadein 2s ease;
+        }
+
+        @keyframes fadein {
+            from { opacity: 0; transform: scale(0.95); }
+            to   { opacity: 1; transform: scale(1); }
+        }
+
+        p.intro {
+            max-width: 650px;
+            margin-top: 25px;
+            font-size: 1.2rem;
+            line-height: 1.7;
+            color: #e8dbc2;
+            text-shadow: 0 0 5px #000;
+        }
+
+        /* GIF fissa in basso a sinistra */
+        .corner-gif-left {
+            position: fixed;
+            bottom: 0px;
+            left: 15px;
+            width: 290px;
+            height: auto;
+            z-index: 999;
+        }
+
+        /* GIF fissa in basso a destra */
+        .corner-gif-right {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            width: 90px;
+            height: auto;
+            z-index: 999;
+        }
+
+        /* Effetto particelle fantasy */
+        canvas#fx {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#razze">Razze</a></li>
+                <li><a href="#classi">Classi</a></li>
+                <li><a href="#lavorative">Lavorative</a></li>
+                <li><a href="#media">Media</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <canvas id="fx"></canvas>
+
+    <section class="content" id="home">
+        <img src="./img/UltimaOnlineLogo.png" alt="Ultima Online Logo" class="logo" />
+        <h1>Strike</h1>
+
+        <p class="intro">
+            Benvenuto nel nostro mondo di Ultima Online, uno shard costruito con passione e dedizione.
+            Qui troverai razze uniche, classi personalizzate e un sistema lavorativo completamente rivisitato.
+            Esplora terre misteriose, affronta sfide epiche e vivi un’esperienza immersiva e sempre aggiornata.
+            Il nostro obiettivo è offrirti un mondo vivo, equilibrato e ricco di avventura.
+            (Il server e ancora in pre-alpha siamo alla ricerca di gente come te, appasionata che voglia
+            sviluppare, testare o creare il mondo di gioco. Contattaci!)
+        </p>
+    </section>
+
+    <img src="./img/UOdrake.gif" class="corner-gif-left" alt="Decorazione" />
+    <img src="./img/ultima-online-wizard.gif" class="corner-gif-right" alt="Decorazione" />
+
+    <script>
+        // Effetto particelle
+        const canvas = document.getElementById("fx");
+        const ctx = canvas.getContext("2d");
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener("resize", resize);
+        resize();
+
+        const particles = [];
+        for (let i = 0; i < 60; i++) {
+            particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 2 + 1, s: Math.random() * 0.5 + 0.2 });
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "rgba(199, 169, 107, 0.6)";
+
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fill();
+                p.y += p.s;
+                if (p.y > canvas.height) p.y = -5;
+            });
+
+            requestAnimationFrame(draw);
+        }
+
+        draw();
+    </script>
+
+</body>
+</html>
